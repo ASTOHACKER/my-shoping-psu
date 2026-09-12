@@ -33,11 +33,10 @@ RETURNING *;
 exports.getProductStats = async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT category, COUNT(*) AS total FROM products GROUP BY category"
+      "SELECT category, COUNT(*) AS total FROM products GROUP BY category",
     );
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
