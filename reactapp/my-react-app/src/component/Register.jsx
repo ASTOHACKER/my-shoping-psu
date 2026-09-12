@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiRequest } from "./api";
+import { Icon } from "./ui";
 
 export default function Register() {
   const [form, setForm] = useState({ username: "", password: "", fullname: "" });
@@ -8,41 +9,32 @@ export default function Register() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const update = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setMessage("");
-    setError("");
-    setLoading(true);
-
+    event.preventDefault(); setMessage(""); setError(""); setLoading(true);
     try {
-      await apiRequest("/api/users/register", {
-        method: "POST",
-        body: JSON.stringify(form),
-      });
-      setForm({ username: "", password: "", fullname: "" });
-      setMessage("Register success");
+      await apiRequest("/api/users/register", { method: "POST", body: JSON.stringify(form) });
+      setForm({ username: "", password: "", fullname: "" }); setMessage("สมัครสมาชิกสำเร็จ กำลังพาไปหน้าเข้าสู่ระบบ");
       setTimeout(() => navigate("/login"), 800);
-    } catch (requestError) {
-      setError(requestError.message);
-    } finally {
-      setLoading(false);
-    }
+    } catch (requestError) { setError(requestError.message); } finally { setLoading(false); }
   };
 
   return (
-    <div className="max-w-sm mx-auto">
-      <h1 className="text-xl font-semibold tracking-tight">สมัครสมาชิก</h1>
-      <p className="text-sm text-zinc-500 mt-1">สร้างบัญชีผู้ใช้สำหรับดูสินค้า</p>
-      <form onSubmit={handleSubmit} className="mt-5 space-y-3">
-        <input value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} placeholder="Username" required className="w-full border border-zinc-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-zinc-400" />
-        <input value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Password (อย่างน้อย 6 ตัวอักษร)" type="password" minLength="6" required className="w-full border border-zinc-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-zinc-400" />
-        <input value={form.fullname} onChange={(e) => setForm({ ...form, fullname: e.target.value })} placeholder="Full name" required className="w-full border border-zinc-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-zinc-400" />
-        {message && <p className="text-sm text-emerald-700 border border-emerald-200 bg-emerald-50 rounded-md p-2.5">{message}</p>}
-        {error && <p className="text-sm text-red-600 border border-red-200 bg-red-50 rounded-md p-2.5">{error}</p>}
-        <button type="submit" disabled={loading} className="w-full bg-zinc-900 text-white rounded-md py-2 text-sm font-medium hover:bg-black disabled:opacity-50">{loading ? "กำลังสมัคร..." : "Register"}</button>
-      </form>
-      <p className="text-sm text-zinc-500 mt-4 text-center">มีบัญชีแล้ว? <Link to="/login" className="text-zinc-900 underline">เข้าสู่ระบบ</Link></p>
+    <div className="auth-layout">
+      <aside className="auth-aside"><small>BAKE SOMETHING GOOD</small><h2>เริ่มต้นวันที่อร่อยกว่าเดิม</h2><p>สร้างบัญชีไว้สำหรับดูเมนูใหม่ ๆ และรายละเอียดขนมจาก Sweet Bakery</p></aside>
+      <section className="auth-form-wrap">
+        <h1>สมัครสมาชิก</h1><p>สร้างบัญชีผู้ใช้สำหรับดูสินค้า</p>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="field"><label htmlFor="register-name">ชื่อ-นามสกุล</label><input id="register-name" value={form.fullname} onChange={update("fullname")} placeholder="ชื่อของคุณ" required autoComplete="name" /></div>
+          <div className="field"><label htmlFor="register-username">ชื่อผู้ใช้</label><input id="register-username" value={form.username} onChange={update("username")} placeholder="ตั้งชื่อผู้ใช้" required autoComplete="username" /></div>
+          <div className="field"><label htmlFor="register-password">รหัสผ่าน</label><input id="register-password" value={form.password} onChange={update("password")} placeholder="อย่างน้อย 6 ตัวอักษร" type="password" minLength="6" required autoComplete="new-password" /></div>
+          {message && <p className="form-message form-success" role="status">{message}</p>}
+          {error && <p className="form-message" role="alert">{error}</p>}
+          <button type="submit" disabled={loading} className="auth-submit">{loading ? "กำลังสร้างบัญชี..." : "สร้างบัญชี"}<Icon name="arrow" size={15} /></button>
+        </form>
+        <p className="auth-switch">มีบัญชีแล้ว? <Link to="/login">เข้าสู่ระบบ</Link></p>
+      </section>
     </div>
   );
 }

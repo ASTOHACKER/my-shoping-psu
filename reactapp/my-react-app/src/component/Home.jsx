@@ -1,36 +1,34 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { Icon } from "./ui";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-xl font-semibold tracking-tight">หน้าแรก</h1>
-      <p className="text-sm text-zinc-600 mt-2 leading-relaxed max-w-[60ch]">
-        Sweet Bakery Cafe — ร้านขนมโฮมเมด อบสดใหม่ทุกวัน วัตถุดิบพรีเมียม
-      </p>
-      <div className="mt-5 flex gap-2">
-        <Link to="/products" className="text-sm bg-zinc-900 text-white px-4 py-2 rounded-md hover:bg-black">
-          ดูเมนู
-        </Link>
-        <Link to="/about" className="text-sm bg-white border border-zinc-200 px-4 py-2 rounded-md hover:bg-zinc-50">
-          เกี่ยวกับเรา
-        </Link>
-      </div>
+    <div className="home-page">
+      <section className="home-hero">
+        <div>
+          <span className="eyebrow">Sweet Bakery Cafe</span>
+          <h1 className="display-title">ขนมอบสดใหม่<br />ที่ทำให้วันธรรมดา<br /><em>หวานขึ้นอีกนิด</em></h1>
+          <p className="lead">ขนมโฮมเมดจากครัวเล็ก ๆ ของเรา ใช้เนยแท้ วัตถุดิบคุณภาพ และอบใหม่ทุกเช้า เพื่อให้ทุกคำมีรสชาติของความตั้งใจ</p>
+          <div className="button-row">
+            <Link to="/products" className="button-primary">เลือกขนมของเรา <Icon name="arrow" size={16} /></Link>
+            <Link to="/about" className="button-secondary">รู้จักร้านของเรา</Link>
+          </div>
+        </div>
 
-      <div className="mt-6 grid sm:grid-cols-3 gap-3 text-sm">
-        <div className="border border-zinc-200 rounded-lg p-4">
-          <p className="font-medium">เนยแท้</p>
-          <p className="text-xs text-zinc-500 mt-1">นำเข้าฝรั่งเศส</p>
+        <div className="hero-art" aria-hidden="true">
+          <div className="hero-card">
+            <div className="hero-card-top"><span>BAKED FRESH · EVERY MORNING</span><span className="hero-card-stamp">SINCE<br />2018</span></div>
+            <div className="hero-card-copy"><h2>Made with<br />butter & care.</h2><p>ขนมที่ดีเริ่มจากวัตถุดิบที่ดี<br />และเวลาที่พอดีในเตาอบ</p></div>
+            <div className="hero-card-bottom"><span>SMALL BATCH / BIG HEART</span><Icon name="sparkle" size={18} /></div>
+          </div>
         </div>
-        <div className="border border-zinc-200 rounded-lg p-4">
-          <p className="font-medium">อบใหม่ทุกเช้า</p>
-          <p className="text-xs text-zinc-500 mt-1">06:00 – พร้อมเสิร์ฟ</p>
-        </div>
-        <div className="border border-zinc-200 rounded-lg p-4">
-          <p className="font-medium">50+ เมนู</p>
-          <p className="text-xs text-zinc-500 mt-1">ครัวซองต์ เค้ก กาแฟ</p>
-        </div>
-      </div>
+      </section>
+
+      <section className="home-highlights" aria-label="จุดเด่นของร้าน">
+        <div className="highlight"><span className="highlight-icon"><Icon name="sparkle" size={16} /></span><div><h3>เนยแท้คุณภาพดี</h3><p>หอมละมุนจากวัตถุดิบที่เราเลือกเอง</p></div></div>
+        <div className="highlight"><span className="highlight-icon"><Icon name="package" size={16} /></span><div><h3>อบใหม่ทุกเช้า</h3><p>เริ่มเตรียมตั้งแต่ 06:00 เพื่อความสดใหม่</p></div></div>
+        <div className="highlight"><span className="highlight-icon"><Icon name="phone" size={16} /></span><div><h3>แวะมาทักทายกัน</h3><p>สยามสแควร์ ซอย 5 กรุงเทพฯ</p></div></div>
+      </section>
     </div>
   );
 }
